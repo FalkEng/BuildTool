@@ -1,0 +1,6 @@
+from example_target import ExampleTarget
+
+
+if __name__ == 'entry':
+    example = ExampleTarget("myTarget")
+    example.printname()
