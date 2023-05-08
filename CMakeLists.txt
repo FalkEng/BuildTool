@@ -1,9 +1,8 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.8)
 project(BuildTool)
 
-add_library(${PROJECT_NAME}_lib 
-    src/task.cpp
-    src/scheduler.cpp
-    src/worker.cpp)
+enable_testing()
 
-target_include_directories(${PROJECT_NAME}_lib PRIVATE inc)
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
+add_subdirectory(googletest)
+add_subdirectory(test)
