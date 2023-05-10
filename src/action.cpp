@@ -2,9 +2,8 @@
 
 Action::Action()
 {
-
 }
 
-void Action::execute()
+void Action::execute() const
 {
 }

@@ -6,22 +6,40 @@
 
 Scheduler::Scheduler(std::string build_dir) : build_dir_(build_dir) {}
 
-void Scheduler::workerLoop() {
-  const Action *task_ptr = nullptr;
-  while (true) {
-    std::lock_guard<std::mutex> guard(prio_mutex_);
-    if (tasks_.empty())
-      return;
-    const Action *task_ptr = tasks_.top();
-    tasks_.pop();
+void Scheduler::workerLoop()
+{
+  while (true)
+  {
+    {
+      std::lock_guard<std::mutex> guard(prio_mutex_);
+      if (tasks_.empty())
+        return;
+      Action task = *tasks_.begin();
+      tasks_.erase(tasks_.begin());
+      task.execute();
+    }
   }
-  task_ptr->execute();
 }
 
-void Scheduler::build() {
+void Scheduler::addTask(Action &task)
+{
+  tasks_.push_back(task);
+}
+
+void Scheduler::build()
+{
   std::vector<std::thread> threads;
 
-  for (unsigned int i = 0; i < std::thread::hardware_concurrency(); i++) {
+  for (unsigned int i = 0; i < std::thread::hardware_concurrency(); i++)
+  {
     threads.push_back(std::thread(std::bind(&Scheduler::workerLoop, this)));
   }
+  for (auto &thread : threads)
+    thread.join();
+}
+
+bool Scheduler::empty()
+{
+  std::lock_guard<std::mutex> guard(prio_mutex_);
+  return tasks_.empty();
 }

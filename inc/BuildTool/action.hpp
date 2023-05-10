@@ -1,14 +1,16 @@
 #include <string>
 #include <vector>
 
-class Action {
+#define REGISTER_PLUGIN(a, b, )
+
+class Action
+{
 public:
-  Action();
-  void execute() const;
+  Action(std::function<void(std::vector<string>, std::vector<string>)>, std::string out_file, std::vector<std::string> in_files);
+  virtual void execute() const = 0;
 
 private:
-  std::string out_file_;
+  std::vector<std::string> out_file_;
 
-  std::vector<std::string> in_file_;
-  unsigned int level = 0;
+  std::vector<std::string> in_files_;
 };
