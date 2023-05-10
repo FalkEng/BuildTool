@@ -1,0 +1,23 @@
+{
+    "artifacts": [
+        "subA": {
+            "root": "subA",
+            "srcs": [
+                "src/ClassA.cpp",
+                "src/main.cpp"
+            ],
+            "incs": [
+                "inc"
+            ]
+        },
+        "subB": {
+            "root": "subB",
+            "srcs": [
+                "src/main.cpp"
+            ],
+            "incs": [
+                "inc"
+            ]
+        }
+    ]
+}

@@ -1,9 +1,5 @@
 #include <BuildTool/action.hpp>
 
-Action::Action()
-{
-}
+Action::Action() {}
 
-void Action::execute() const
-{
-}
+void Action::execute() {}
