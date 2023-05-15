@@ -1,21 +1,24 @@
 #include <BuildTool/action.hpp>
-#include <string>
 #include <filesystem>
+#include <nlohmann/json.hpp>
+#include <string>
 #include <unordered_map>
 
-struct IncludeStorage
-{
-  void addIncludes(std::filesystem::path file_path);
+using json = nlohmann::json;
 
+struct IncludeStorage {
+  void addIncludes(std::filesystem::path file_path);
+  void addIncludes(json json_file, std::filesystem::path file_path);
   std::unordered_map<std::filesystem::path, std::string> includes_;
 };
 
-class ArtifactParser
-{
+class ArtifactParser {
 public:
   ArtifactParser();
 
   void parse(std::filesystem::path file_path);
+  void parse(json json_file, std::filesystem::path file_path);
+  void sanatize(json json_file);
 
 private:
   std::unordered_map<std::string, Action> actions_;

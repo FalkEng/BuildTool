@@ -1,8 +1,7 @@
 #include <string>
 #include <vector>
 
-class Action
-{
+class Action {
 public:
   Action();
 
@@ -11,5 +10,4 @@ public:
 private:
   std::string out_file_;
   std::vector<std::string> in_files_;
-  std::vector<std::string> incs_;
 };
