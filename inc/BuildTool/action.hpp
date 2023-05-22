@@ -1,9 +1,15 @@
 #include <BuildTool/definitions.hpp>
 #include <vector>
 
-enum class ActionType { Compile, Link, Depend };
+enum class ActionType
+{
+  Compile,
+  Link,
+  Depend
+};
 
-class Action {
+class Action
+{
 public:
   Action(std::vector<std::string> in_files, std::string out_file);
 

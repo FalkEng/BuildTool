@@ -9,6 +9,8 @@ add_subdirectory(json)
 add_library(BuildTool_lib
     src/action.cpp
     src/artifact_parser.cpp
+    src/build_tool.cpp
+    src/main.cpp
     src/scheduler.cpp)
 
 target_include_directories(BuildTool_lib PUBLIC inc)
