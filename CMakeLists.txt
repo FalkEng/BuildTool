@@ -7,17 +7,22 @@ add_subdirectory(googletest)
 add_subdirectory(json)
 
 add_library(BuildTool_lib
+    src/action_graph.cpp
     src/action.cpp
     src/artifact_parser.cpp
+    src/build_params.cpp
     src/build_tool.cpp
-    src/main.cpp
     src/scheduler.cpp)
+
+add_executable(BuildTool src/main.cpp)
 
 target_include_directories(BuildTool_lib PUBLIC inc)
 target_link_libraries(BuildTool_lib PUBLIC nlohmann_json)
+target_link_libraries(BuildTool PUBLIC BuildTool_lib)
 
 enable_testing()
 add_executable(new_test
+    test/build_tool_test.cpp
     test/parser_test.cpp
     test/scheduler_test.cpp)
 target_link_libraries(new_test PUBLIC 

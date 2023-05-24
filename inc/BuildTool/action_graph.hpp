@@ -1,16 +1,22 @@
 #include <BuildTool/action.hpp>
+#include <BuildTool/build_params.hpp>
+#include <filesystem>
 #include <unordered_map>
 
-class ActionGraph
-{
+class ActionGraph {
 public:
-  ActionGraph();
+  ActionGraph(const BuildParams &params);
 
   void addAction();
 
   const Action &getAction(const std::string key);
 
+  void parseFromJson(const std::filesystem::path &json_path);
+
+  void dumpToJson(const std::filesystem::path &json_path);
+
 private:
-  std::unordered_map<std::string, Action> actions_;
-  std::filesystem::path build_dir;
+  std::vector<Action> actions_;
+  std::unordered_map<std::string, Action *> deps_;
+  const BuildParams params_;
 };

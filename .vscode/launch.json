@@ -5,7 +5,7 @@
       "name": "myCustomDebugConfig",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspace}\\build\\RelWithDebInfo\\new_test.exe",
+      "program": "${workspaceFolder}/build/RelWithDebInfo/new_test.exe",
       "stopAtEntry": true,
       "windows": {
         "type": "cppvsdbg"
