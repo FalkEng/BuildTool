@@ -22,9 +22,9 @@ target_link_libraries(BuildTool PUBLIC BuildTool_lib)
 
 enable_testing()
 add_executable(new_test
+    test/action_graph_test.cpp
     test/build_tool_test.cpp
-    test/parser_test.cpp
-    test/scheduler_test.cpp)
+    test/parser_test.cpp)
 target_link_libraries(new_test PUBLIC 
     BuildTool_lib
     gtest_main)

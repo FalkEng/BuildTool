@@ -1,22 +1,29 @@
 #include <BuildTool/action.hpp>
 #include <BuildTool/build_params.hpp>
-#include <filesystem>
 #include <unordered_map>
+#include <iterator>
 
-class ActionGraph {
+using DepsMap = std::unordered_multimap<std::filesystem::path, Action *>;
+using DepsConstIt = DepsMap::const_iterator;
+class ActionGraph
+{
 public:
   ActionGraph(const BuildParams &params);
 
-  void addAction();
+  void loadFromFile(const std::filesystem::path &path);
 
-  const Action &getAction(const std::string key);
+  std::pair<DepsConstIt, DepsConstIt> getDeps(const std::filesystem::path &key) const;
 
-  void parseFromJson(const std::filesystem::path &json_path);
+  const size_t numActions() const;
 
-  void dumpToJson(const std::filesystem::path &json_path);
+  const size_t numDeps() const;
+
+  void loadFromJson(const json &json_obj);
+
+  json dumpToJson();
 
 private:
   std::vector<Action> actions_;
-  std::unordered_map<std::string, Action *> deps_;
+  DepsMap deps_;
   const BuildParams params_;
 };

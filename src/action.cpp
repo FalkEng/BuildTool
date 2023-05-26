@@ -1,11 +1,13 @@
 #include <BuildTool/action.hpp>
 
-std::string ActionData::getCompileCommand() {}
+std::string ActionData::getCompileCommand() const { return ""; }
 
-std::string ActionData::getLinkCommand() {}
+std::string ActionData::getLinkCommand() const { return ""; }
 
-std::string ActionData::getCmd() {
-  switch (type_) {
+std::string ActionData::getCmd() const
+{
+  switch (type_)
+  {
   case ActionType::Compile:
     return getCompileCommand();
   case ActionType::Link:
@@ -13,16 +15,22 @@ std::string ActionData::getCmd() {
   }
 }
 
-void Action::execute() {}
+Action::Action(const ActionData &data) : data_(data), cmd_(data.getCmd()) {}
 
-void from_json(const json &j, Action &data) {
-  j.at("out_file").get_to(data.data_.out_file_);
-  j.at("in_files").get_to(data.data_.in_files_);
-  j.at("type").get_to(data.data_.type_);
+void Action::execute()
+{
 }
 
-void to_json(json &j, const Action &data) {
-  j = json{{"out_file", data.data_.out_file_},
-           {"in_files", data.data_.in_files_},
-           {"type", data.data_.type_}};
+void from_json(const json &j, ActionData &data)
+{
+  j.at("out_file").get_to(data.out_file_);
+  j.at("in_files").get_to(data.in_files_);
+  j.at("type").get_to(data.type_);
+}
+
+void to_json(json &j, const ActionData &data)
+{
+  j = json{{"out_file", data.out_file_},
+           {"in_files", data.in_files_},
+           {"type", data.type_}};
 }

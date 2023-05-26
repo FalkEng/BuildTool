@@ -1,25 +1,52 @@
 #include <BuildTool/action_graph.hpp>
 #include <fstream>
 
-ActionGraph::ActionGraph(const BuildParams &params) : params_(params) {
+ActionGraph::ActionGraph(const BuildParams &params) : params_(params)
+{
   if (!std::filesystem::exists(params_.build_dir_))
     throw std::invalid_argument("build directory not found!");
+}
+
+void ActionGraph::loadFromFile(const std::filesystem::path &path)
+{
   const std::filesystem::path &graph_dir = params_.build_dir_ / "graph.json";
-  if (std::filesystem::exists(graph_dir)) {
-    parseFromJson(graph_dir);
+  if (std::filesystem::exists(graph_dir))
+  {
+    std::ifstream f(graph_dir);
+    loadFromJson(json::parse(f));
   }
 }
 
-void ActionGraph::parseFromJson(const std::filesystem::path &json_path) {
-  std::ifstream f(json_path);
-  nlohmann::json json_file = nlohmann::json::parse(f);
-  for (nlohmann::json action_json : json_file) {
-    Action action = action_json.get<Action>();
+void ActionGraph::loadFromJson(const json &json_obj)
+{
+  for (json action_json : json_obj)
+  {
+    const ActionData &action_data = action_json.get<ActionData>();
+    Action &action = Action(action_data);
     actions_.push_back(action);
-    for (std::string file_name : action.data_.in_files_) {
+    for (std::filesystem::path file_name : action_data.in_files_)
+    {
       deps_.insert(std::make_pair(file_name, &action));
     }
   }
 }
 
-void ActionGraph::dumpToJson(const std::filesystem::path &json_path) {}
+json ActionGraph::dumpToJson()
+{
+  return json{};
+}
+
+const size_t ActionGraph::numActions() const
+{
+  return actions_.size();
+}
+
+const size_t ActionGraph::numDeps() const
+{
+  return deps_.size();
+}
+
+std::pair<DepsConstIt, DepsConstIt> ActionGraph::getDeps(const std::filesystem::path &key) const
+{
+  return deps_.equal_range(key);
+}
