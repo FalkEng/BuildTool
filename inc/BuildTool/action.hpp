@@ -1,16 +1,11 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 
-enum class ActionType
-{
-  Compile,
-  Link,
-  Depend
-};
+enum class ActionType { Compile, Link, Depend };
+enum class BuildStatus { Deprecated, Built };
 using json = nlohmann::json;
 
-struct ActionData
-{
+struct ActionData {
   std::string getCompileCommand() const;
 
   std::string getLinkCommand() const;
@@ -21,16 +16,19 @@ struct ActionData
   std::vector<std::filesystem::path> in_files_;
 };
 
-class Action
-{
+class Action {
 public:
   Action(const ActionData &data);
   ~Action() {}
   void execute();
 
+  void setStatus(BuildStatus status);
+  const ActionData &getData() const;
+
 private:
-  std::string cmd_;
-  ActionData data_;
+  BuildStatus status_;
+  const std::string cmd_;
+  const ActionData data_;
 };
 
 void from_json(const json &j, ActionData &data);

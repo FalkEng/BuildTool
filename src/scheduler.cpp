@@ -12,14 +12,13 @@ void Scheduler::workerLoop() {
       std::lock_guard<std::mutex> guard(prio_mutex_);
       if (tasks_.empty())
         return;
-      Action task = *tasks_.begin();
-      tasks_.erase(tasks_.begin());
-      task.execute();
+      // Action task;
+      // task.execute();
     }
   }
 }
 
-void Scheduler::addTask(Action &task) { tasks_.push_back(task); }
+void Scheduler::addTask(const size_t id) { tasks_.push(id); }
 
 void Scheduler::build() {
   std::vector<std::thread> threads;

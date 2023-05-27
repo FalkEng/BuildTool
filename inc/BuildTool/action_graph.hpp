@@ -1,29 +1,29 @@
-#include <BuildTool/action.hpp>
 #include <BuildTool/build_params.hpp>
-#include <unordered_map>
 #include <iterator>
+#include <stdint.h>
+#include <unordered_map>
 
-using DepsMap = std::unordered_multimap<std::filesystem::path, Action *>;
+using DepsMap = std::unordered_multimap<std::filesystem::path, size_t>;
 using DepsConstIt = DepsMap::const_iterator;
-class ActionGraph
-{
+
+template <typename TAction> class ActionGraph {
 public:
-  ActionGraph(const BuildParams &params);
+  ActionGraph(const std::vector<TAction> &tasks);
 
-  void loadFromFile(const std::filesystem::path &path);
+  const std::pair<DepsConstIt, DepsConstIt>
+  getDeps(const std::filesystem::path &key) const;
 
-  std::pair<DepsConstIt, DepsConstIt> getDeps(const std::filesystem::path &key) const;
+  const TAction &getAction(const size_t id) const;
+
+  void addAction(const TAction &action);
 
   const size_t numActions() const;
 
   const size_t numDeps() const;
 
-  void loadFromJson(const json &json_obj);
-
-  json dumpToJson();
-
 private:
-  std::vector<Action> actions_;
-  DepsMap deps_;
-  const BuildParams params_;
+  const std::vector<TAction> actions_;
+  const DepsMap deps_;
+
+  static const DepsMap &genDeps(const std::vector<TAction> &tasks);
 };
