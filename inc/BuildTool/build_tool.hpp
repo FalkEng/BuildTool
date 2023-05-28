@@ -9,15 +9,13 @@ public:
   void buildFile(std::filesystem::path file_to_build, bool test = false);
   void buildArtifact(std::string artifcat_name, bool test = false);
   void buildAll();
-  void loadFromFile(const std::filesystem::path &path);
+  const json &JsonFromFile(const std::filesystem::path &path);
 
   void build(std::vector<std::string> files);
 
   const std::vector<Action> &loadFromJson(const json &json_obj);
 
-  json dumpToJson();
-
-  void loadFromFile(const std::filesystem::path &path);
+  const json &dumpToJson();
 
 private:
   ActionGraph<Action> graph_;

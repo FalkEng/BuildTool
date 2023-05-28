@@ -1,6 +1,7 @@
 #include <BuildTool/build_tool.hpp>
 
-BuildTool::BuildTool(const BuildParams &params) : graph_() {}
+BuildTool::BuildTool(const BuildParams &params)
+    : graph_(loadFromJson(JsonFromFile(params.build_dir_))) {}
 void BuildTool::buildJson(std::filesystem::path json_to_build, bool test) {
   if (!exists(json_to_build))
     return;
@@ -20,13 +21,14 @@ const std::vector<Action> &BuildTool::loadFromJson(const json &json_obj) {
   }
 }
 
-template <typename TAction> json BuildTool::dumpToJson() { return json{}; }
+const json &BuildTool::dumpToJson() { return json{}; }
 
-template <typename TAction>
-void ActionGraph<TAction>::loadFromFile(const std::filesystem::path &path) {
-  const std::filesystem::path &graph_dir = params_.build_dir_ / "graph.json";
-  if (std::filesystem::exists(graph_dir)) {
-    std::ifstream f(graph_dir);
-    loadFromJson(json::parse(f));
+const json &BuildTool::loadFromFile(const std::filesystem::path &path) {
+  const std::filesystem::path &graph_dir = path / "graph.json";
+  if (!std::filesystem::exists(graph_dir)) {
+    throw std::invalid_argument("Argument parsing failed for argument " +
+                                **std::prev(begin));
   }
+  std::ifstream f(graph_dir);
+  return json::parse(f);
 }
