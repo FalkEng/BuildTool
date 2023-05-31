@@ -85,7 +85,9 @@
     "numeric": "cpp",
     "random": "cpp",
     "regex": "cpp",
-    "valarray": "cpp"
+    "valarray": "cpp",
+    "stack": "cpp",
+    "strstream": "cpp"
   },
   "editor.formatOnSave": true,
   "cmake.configureSettings": {

@@ -1,6 +1,8 @@
+#pragma once
 #include <filesystem>
 
-struct BuildParams {
+struct BuildParams
+{
 
   BuildParams(char **begin, char **end);
   std::filesystem::path build_dir_{};

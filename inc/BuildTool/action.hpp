@@ -1,22 +1,35 @@
+#pragma once
 #include <nlohmann/json.hpp>
 #include <vector>
 
-enum class ActionType { Compile, Link, Depend };
-enum class BuildStatus { Deprecated, Built };
+enum class ActionType
+{
+  Compile,
+  Link,
+  Depend
+};
+enum class BuildStatus
+{
+  Deprecated,
+  Built
+};
 using json = nlohmann::json;
 
-struct ActionData {
+struct ActionData
+{
+  ActionType type_;
+  std::filesystem::path out_file_;
+  std::vector<std::filesystem::path> in_files_;
+
   std::string getCompileCommand() const;
 
   std::string getLinkCommand() const;
 
   std::string getCmd() const;
-  ActionType type_;
-  std::filesystem::path out_file_;
-  std::vector<std::filesystem::path> in_files_;
 };
 
-class Action {
+class Action
+{
 public:
   Action(const ActionData &data);
   ~Action() {}

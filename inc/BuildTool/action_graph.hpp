@@ -1,3 +1,4 @@
+#pragma once
 #include <BuildTool/build_params.hpp>
 #include <iterator>
 #include <stdint.h>
@@ -6,9 +7,11 @@
 using DepsMap = std::unordered_multimap<std::filesystem::path, size_t>;
 using DepsConstIt = DepsMap::const_iterator;
 
-template <typename TAction> class ActionGraph {
+template <typename TAction>
+class ActionGraph
+{
 public:
-  ActionGraph(const std::vector<TAction> &tasks);
+  ActionGraph(const std::vector<TAction> &actions);
 
   const std::pair<DepsConstIt, DepsConstIt>
   getDeps(const std::filesystem::path &key) const;
@@ -25,5 +28,7 @@ private:
   const std::vector<TAction> actions_;
   const DepsMap deps_;
 
-  static const DepsMap &genDeps(const std::vector<TAction> &tasks);
+  static const DepsMap genDeps(const std::vector<TAction> &tasks);
 };
+
+#include "action_graph.inl"

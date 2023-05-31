@@ -1,10 +1,12 @@
+#pragma once
 #include <BuildTool/action.hpp>
 #include <array>
 #include <mutex>
 #include <queue>
 #include <vector>
 
-class Scheduler {
+class Scheduler
+{
 public:
   Scheduler(std::string build_dir);
 

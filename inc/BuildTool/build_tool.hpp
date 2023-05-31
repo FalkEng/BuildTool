@@ -1,8 +1,10 @@
+#pragma once
 #include <BuildTool/action.hpp>
 #include <BuildTool/action_graph.hpp>
 #include <memory>
 
-class BuildTool {
+class BuildTool
+{
 public:
   BuildTool(const BuildParams &params);
   void buildJson(std::filesystem::path json_to_build, bool test = false);
@@ -16,6 +18,8 @@ public:
   const std::vector<Action> &loadFromJson(const json &json_obj);
 
   const json &dumpToJson();
+
+  void createBuildDir(const std::filesystem::path &path);
 
 private:
   ActionGraph<Action> graph_;

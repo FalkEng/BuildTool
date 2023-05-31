@@ -7,7 +7,6 @@ add_subdirectory(googletest)
 add_subdirectory(json)
 
 add_library(BuildTool_lib
-    src/action_graph.cpp
     src/action.cpp
     src/artifact_parser.cpp
     src/build_params.cpp
