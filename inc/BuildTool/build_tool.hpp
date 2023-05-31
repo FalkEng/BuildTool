@@ -3,8 +3,7 @@
 #include <BuildTool/action_graph.hpp>
 #include <memory>
 
-class BuildTool
-{
+class BuildTool {
 public:
   BuildTool(const BuildParams &params);
   void buildJson(std::filesystem::path json_to_build, bool test = false);
