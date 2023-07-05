@@ -1,7 +1,9 @@
 #pragma once
-#include <BuildTool/action.hpp>
-#include <BuildTool/action_graph.hpp>
+#include ""
+#include <BuildTool/actions/ArLinkAction.hpp>
+#include <BuildTool/actions/GccObjAction.hpp>
 #include <memory>
+
 
 class BuildTool {
 public:
@@ -21,5 +23,5 @@ public:
   void createBuildDir(const std::filesystem::path &path);
 
 private:
-  ActionGraph<Action> graph_;
+  ModuleFactory<GccObj, ArLink> factory_;
 };
